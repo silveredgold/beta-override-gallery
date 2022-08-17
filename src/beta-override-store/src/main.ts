@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import * as cookieParser from 'cookie-parser';
-import * as process from 'process';
+import process from 'node:process';
 
 process.on('SIGINT', () => {
   console.info("Interrupted")
