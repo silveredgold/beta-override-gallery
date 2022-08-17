@@ -1,11 +1,11 @@
 {
   "name": "beta-override-store",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Backend API for the Beta Override Gallery",
+  "author": "silveredgold",
+  "license": "GPL-3.0-or-later",
   "private": true,
   "type": "module",
-  "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
