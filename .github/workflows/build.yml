@@ -23,6 +23,8 @@ jobs:
       working-directory: ./src/beta-override-gallery/
     - name: Build frontend
       run: npm run build
+      env:
+        VITE_API_URL: '/api'
       working-directory: ./src/beta-override-gallery/
     - name: 'Upload frontend'
       uses: actions/upload-artifact@v2
