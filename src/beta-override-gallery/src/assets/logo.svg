@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"
+width="512" height="512">
+  <title>Password</title>
+  <desc>A flat styled icon from Orion Icon Library.</desc>
+  <circle data-name="layer2"
+  cx="33" cy="42" r="20" fill="#7c89ad"></circle>
+  <path data-name="layer1" d="M46 26.8V15A13 13 0 0 0 33 2a13 13 0 0 0-13 13v11.8l4-2.667V15a9 9 0 0 1 18 0v9.134zM33 35a1 1 0 0 1-1-1v-6a1 1 0 0 1 2 0v6a1 1 0 0 1-1 1zm0 22a1 1 0 0 1-1-1v-6a1 1 0 0 1 2 0v6a1 1 0 0 1-1 1zm-8-14h-6a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2zm22 0h-6a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2z"
+  fill="#ff49ba"></path>
+  <path data-name="opacity" d="M27.667 36.04L14.4 49.31a20.035 20.035 0 0 0 11.323 11.3l13.26-13.26z"
+  fill="#000064" opacity=".15"></path>
+  <path data-name="layer1" d="M33 34a8 8 0 1 0 8 8 7.994 7.994 0 0 0-8-8z"
+  fill="#ff49ba"></path>
+</svg>
