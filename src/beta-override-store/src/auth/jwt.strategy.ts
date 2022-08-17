@@ -7,15 +7,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private configService: ConfigService) {
-    const extractJwtFromCookie = (req) => {
-        console.log('attempting to extract JWT', req.cookies)
-        let token = null;
-        if (req && req.cookies) {
-            console.log('reading cookie', req.cookies['jwt']);
-          token = req.cookies['jwt'];
-        }
-        return token || ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-      };
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([JwtStrategy.extractJWT, ExtractJwt.fromAuthHeaderAsBearerToken()]),
       ignoreExpiration: false,
@@ -24,12 +15,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   private static extractJWT(req: RequestType): string | null {
-    console.log('attempting to extract JWT', req.cookies)
+    // console.log('attempting to extract JWT', req.cookies)
     if (
       req.cookies &&
       'jwt' in req.cookies
     ) {
-        console.log('found cookie', req.cookies.jwt)
+        // console.log('found cookie', req.cookies.jwt)
       return req.cookies.jwt;
     }
     return null;

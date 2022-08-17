@@ -15,7 +15,9 @@
 <script setup lang="ts">
 import { NConfigProvider, NGlobalStyle, NNotificationProvider, NDialogProvider, NMessageProvider, NLoadingBarProvider, type GlobalThemeOverrides, useOsTheme, darkTheme } from "naive-ui";
 import { computed } from "vue";
-const themeOverrides: GlobalThemeOverrides = { common: { fontWeightStrong: '600' }, Result: { lineHeight: '1.1', titleFontSizeSmall: '24', iconSizeSmall: '48px' } };
+const themeOverrides: GlobalThemeOverrides = {
+    common: { primaryColor: '#41729FFF', primaryColorHover: '#5885AFFF', primaryColorPressed: '#355674FF', primaryColorSuppl: 'rgba(39, 68, 114, 1)', fontWeightStrong: '600' }, Result: { lineHeight: '1.1', titleFontSizeSmall: '24', iconSizeSmall: '48px' }
+};
 const osTheme = useOsTheme()
 const theme = computed(() => (osTheme.value === 'dark' ? darkTheme : null))
 </script>
