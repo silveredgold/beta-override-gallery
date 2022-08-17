@@ -56,27 +56,16 @@
                 </n-form-item-gi>
                 <n-form-item-gi :span="6" path="integrityCheck" label="Integrity Check" ref="formItemIntegrityRef">
                     <n-checkbox :checked="currentOverrideIntegrity">Check Passed</n-checkbox>
-                    <help-tooltip>This will automatically complete if the </help-tooltip>
+                    <help-tooltip>This will automatically complete if the uploaded override file is valid.</help-tooltip>
                 </n-form-item-gi>
-                <!-- <n-row :gutter="[0, 24]">
-                    <n-col :span="24">
-                        <div style="display: flex; justify-content: flex-end">
-                            <n-button :disabled="model.age === null" round type="primary"
-                                @click="handleValidateButtonClick">
-                                Validate
-                            </n-button>
-                        </div>
-                    </n-col>
-                </n-row> -->
-
             </n-grid>
         </n-form>
         <template #footer>
             <n-tooltip trigger="hover" v-if="!currentOverride">
                 <template #trigger>
-                    <n-button @click="openFile">Import Single File...</n-button>
+                    <n-button @click="openFile">Import Override File...</n-button>
                 </template>
-                Choose a single image to use for any category.
+                <n-text>Choose the <n-text code>.betaoverride</n-text> file to upload to the gallery.</n-text>
             </n-tooltip>
             <n-thing title="Summary" v-if="currentOverrideIntegrity">
                 <censoring-summary :preferences="currentOverride!.preferences" extra-category="Site Lists">
@@ -94,7 +83,7 @@
 </template>
 <script setup lang="ts">
 import { KeyMode, type IExtensionPreferences, type UploadOverride } from "@/shared/types";
-import { NCard, NForm, NFormItem, NFormItemGi, NGrid, NGridItem, NInput, NRadioGroup, NRadioButton, NSpace, NButton, NTooltip, NCheckbox, NAvatar, NIcon, NThing, type FormRules, type FormItemRule, type FormInst, useMessage, type FormItemInst } from "naive-ui";
+import { NText, NCard, NForm, NFormItem, NFormItemGi, NGrid, NGridItem, NInput, NRadioGroup, NRadioButton, NSpace, NButton, NTooltip, NCheckbox, NAvatar, NIcon, NThing, type FormRules, type FormItemRule, type FormInst, useMessage, type FormItemInst } from "naive-ui";
 import { computed, ref, type Ref } from "vue";
 import { CloudUpload } from "@vicons/ionicons5";
 import { HelpTooltip, services } from "@silveredgold/beta-shared-components";
