@@ -42,13 +42,13 @@ RUN npm prune --production
 FROM node:16-alpine
 ENV NODE_ENV=production
 ENV SPA_BUILD_PATH=client
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy everything required to run the built application into the new container.
-COPY --from=frontend-builder /usr/src/app/dist/ ./client/
 COPY --from=backend-builder /usr/src/app/package*.json ./
 COPY --from=backend-builder /usr/src/app/node_modules/ ./node_modules/
 COPY --from=backend-builder /usr/src/app/dist/ ./dist/
+COPY --from=frontend-builder /usr/src/app/dist/ ./dist/client/
 
 # Expose the web server's port.
 EXPOSE 3000
