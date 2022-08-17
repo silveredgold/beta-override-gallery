@@ -1,6 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import * as cookieParser from 'cookie-parser';
+import * as process from 'process';
+
+process.on('SIGINT', () => {
+  console.info("Interrupted")
+  process.exit(0)
+});
+
+process.on('SIGTERM', () => {
+  console.info("Terminated")
+  process.exit(0)
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {abortOnError: false});
