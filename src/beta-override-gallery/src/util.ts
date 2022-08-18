@@ -27,3 +27,13 @@ export function useExtensionInfoProvider(): ExtensionInfoProvider {
     }
     return info;
 }
+
+export const removeTrailingSlashes = (str?: string) => {
+    if (str == undefined) {
+        return '';
+    }
+    while (str.endsWith('/')) {
+        str = str.slice(0, -1);
+    } 
+    return str;
+};

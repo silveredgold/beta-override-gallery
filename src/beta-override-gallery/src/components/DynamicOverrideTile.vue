@@ -37,12 +37,12 @@
                 <Owner v-if="override.owner" :owner="override.owner" />
                 <n-space item-style="display: flex;" justify="end">
                     <n-button @click="showDetail">Show Details</n-button>
-                    <OverrideDownload :override="override.override" :name="override.name" label="Download" />
+                    <OverrideDownload v-if="allowDownload" :override="override.override" :name="override.name" label="Download" />
                 </n-space>
             </n-space>
         </template>
     </n-card>
-    <n-modal :show="showModal" preset="card" title="Override Details" size="large" :segmented="segmented"
+    <n-modal v-model:show="showModal" preset="card" title="Override Details" size="large" :segmented="segmented"
         style="max-width: 66%; width: 40vw;">
 
         <template #header-extra>
@@ -79,10 +79,8 @@
 </template>
 <script setup lang="ts">
 import type { IExtensionPreferences, UploadOverride } from "@/shared/types";
-import { NCard, NThing, NTabs, NTabPane, NInput, NIcon, NInputGroup, NInputGroupLabel, NSpace, NButton, NModal, NDrawer, NDrawerContent, NTag, NScrollbar } from "naive-ui";
+import { NCard, NThing, NTabs, NTabPane, NSpace, NButton, NModal, NDrawer, NDrawerContent, NTag, NScrollbar } from "naive-ui";
 import { ref, toRefs } from "vue";
-import { LockClosed, Download } from "@vicons/ionicons5";
-import { Duration } from "luxon";
 import LockMode from "./LockMode.vue";
 import OverrideDownload from "./OverrideDownload.vue";
 import ModeSummary from "./ModeSummary.vue";
@@ -93,9 +91,11 @@ import DomainList from "./DomainList.vue";
 import Owner from "./Owner.vue";
 import type { Segmented } from "naive-ui/es/card/src/Card";
 
+const log = (...msg: any[]) => {console.log(msg)}
 
-const props = withDefaults(defineProps<{ override: UploadOverride, useModal?: boolean }>(), {
-    useModal: false
+const props = withDefaults(defineProps<{ override: UploadOverride, useModal?: boolean, allowDownload?: boolean }>(), {
+    useModal: false,
+    allowDownload: true
 });
 
 const emit = defineEmits<{
@@ -115,7 +115,7 @@ const segmented: Segmented = {
     footer: 'soft'
 }
 
-const { override, useModal } = toRefs(props);
+const { override, useModal, allowDownload } = toRefs(props);
 
 const showDetail = () => {
     if (useModal.value) {

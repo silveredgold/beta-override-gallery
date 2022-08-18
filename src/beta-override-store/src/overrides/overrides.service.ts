@@ -1,18 +1,33 @@
 import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { JSONFile, Low } from "lowdb";
-import { dirname, join } from "path";
+import { dirname, join, isAbsolute, extname } from "node:path";
 import { fileURLToPath } from "url";
 import { UploadOverride } from "./upload-override.dto.js";
 
 @Injectable()
 export class OverridesService {
+    /**
+     *
+     */
+    constructor(private configService: ConfigService) {}
     private _db: Low<UploadOverride[]>;
 
     init() {
         const __dirname = dirname(fileURLToPath(import.meta.url));
-        const file = join(__dirname, 'overrides-db.json')
-        const adapter = new JSONFile<UploadOverride[]>(file)
-        const db = new Low(adapter)
+        const filePath = this.configService.get('DB_PATH', './');
+        let file = '';
+        if (isAbsolute(filePath)) {
+            file = filePath;
+            
+        } else {
+            file = join(__dirname, filePath)
+        }
+        if (!extname(file)) {
+            file = join(file, 'overrides.db.json');
+        }
+        const adapter = new JSONFile<UploadOverride[]>(file);
+        const db = new Low(adapter);
         this._db = db;
     }
 
@@ -37,7 +52,7 @@ export class OverridesService {
     }
 
     async getAll() {
-        await this._db.read();
+        await this.read();
         return this._db.data;
     }
 

@@ -1,7 +1,7 @@
 # Initiate a container to build the application in.
 FROM node:16-alpine as frontend-builder
 ENV NODE_ENV=build
-ENV VITE_API_URL=/api/
+ENV VITE_API_URL=/api
 WORKDIR /usr/src/app
 
 # Copy the package.json into the container.
