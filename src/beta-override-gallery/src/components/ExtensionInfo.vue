@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { sendChannelMessage, useExtensionInfoProvider } from '@/util';
-import { generateUUID } from '@silveredgold/beta-shared';
+import { HelpTooltip } from "@silveredgold/beta-shared-components";
 import { computed, onMounted, ref, type Ref } from 'vue';
 import { useOverrideProvider } from './override-provider';
-import { NThing, NTag, NPopover } from "naive-ui";
+import { NThing, NTag, NPopover, NText } from "naive-ui";
 import { DateTime } from 'luxon';
 import { formatDistanceStrict } from "date-fns";
 
@@ -12,24 +12,6 @@ const currentVersion: Ref<string | undefined> = ref(undefined);
 const currentOverride: Ref<string | undefined> = ref(undefined);
 const activatedTime: Ref<DateTime | undefined> = ref(undefined);
 const remainingTime: Ref<Duration | undefined> = ref(undefined);
-
-// const getOverride = async () => {
-//     const override = await sendChannelMessage<{id?: string, remainingTime?: number, activatedTime?: number}>('getCurrentOverride');
-//     console.log('got override details', override);
-//     if (override == undefined) {
-//         currentOverride.value = undefined;
-//         remainingTime.value = undefined;
-//         activatedTime.value = undefined;
-//     } else if (override && override.id != undefined) {
-//         currentOverride.value = override.id;
-//         remainingTime.value = override.remainingTime;
-//         activatedTime.value = override.activatedTime;
-//     } else if (override && override.id == undefined) {
-//         currentOverride.value = 'none';
-//         remainingTime.value = -1;
-//         activatedTime.value = -1
-//     }
-// }
 
 const currentTime = ref(DateTime.fromMillis(new Date().getTime()));
 
@@ -80,11 +62,10 @@ onMounted(async () => {
         </template>
         <template v-if="activatedTime != undefined" #footer></template>
     </n-thing>
-    <n-thing v-if="currentVersion == undefined" :title="statusText">
+    <n-thing v-if="currentVersion == undefined" :title="statusText" :content-style="{marginTop: '0px'}">
+        <template #header-extra>
+            <HelpTooltip>Make sure you have Beta Protection installed, enabled and updated to at least v0.1.6!</HelpTooltip>
+        </template>
         Could not establish connection to Beta Protection!
     </n-thing>
-    <!-- Version: {{currentVersion || 'unknown'}}
-Current Override: {{currentOverride || 'unknown'}}
-Activated: {{ activatedTime || 'unknown'}}
-Remaining: {{remainingTime == undefined ? 'unknown' : remainingTime}} -->
 </template>

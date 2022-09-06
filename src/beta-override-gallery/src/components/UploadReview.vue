@@ -19,14 +19,17 @@
         </n-thing>
         <template #action>
             <ItemGroup>
-                <n-text tag="p" type="warning">You will not be able to delete or unlist an override once shared!</n-text>
+                <n-space :vertical="true" item-style="display: flex;" align="start" justify="space-evenly" :wrap="false">
+                <n-text type="warning">You will not be able to delete or unlist an override once shared!</n-text>
+                <n-text type="warning">Your Discord username will be shown with this override when it is listed!</n-text>
+                </n-space>
                 <n-button type="success" @click="handleUpload">Upload and Share</n-button>
             </ItemGroup>
         </template>
     </n-card>
 </template>
 <script setup lang="ts">import type { UploadOverride } from '@/shared/types';
-import { NCard, NAvatar, NIcon, NThing, NText, NButton } from "naive-ui";
+import { NCard, NAvatar, NIcon, NThing, NText, NButton, NSpace } from "naive-ui";
 import { CloudUpload } from "@vicons/ionicons5";
 import { toRefs } from 'vue';
 import { removeTrailingSlashes } from "@/util";
