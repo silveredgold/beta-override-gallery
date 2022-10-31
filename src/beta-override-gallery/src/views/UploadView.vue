@@ -25,7 +25,7 @@ const handleUpload = async (resp: {success: boolean, error?: string}) => {
         } else {
             message.error('There was an error uploading your override! ' + resp.error || '');
         }
-    } catch (err: Error) {
+    } catch (err: any) {
         message.error('There was an unexpected error uploading your override! ' + err.message);
     }
 }

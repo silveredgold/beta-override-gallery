@@ -205,7 +205,7 @@ const handleValidate = async (e: MouseEvent) => {
                         message.error('There was an error validating your override!');
                     }
                 })
-            } catch (err: Error) {
+            } catch (err: any) {
                 message.error('There was an error validating your override! ' + err.message)
             }
         } else {
