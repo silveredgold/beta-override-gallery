@@ -6,12 +6,19 @@
             </n-input-group-label>
             <n-input :style="{ width: '75%' }" :disabled="true" :value="override.key" />
         </n-input-group>
+        <n-input-group v-if="override.keyMode == KeyMode.OnlyInstalled && override.id !== currentOverrideId">
+            <n-input-group-label>
+                <n-icon style="margin-top: auto; margin-bottom: auto;" :component="LockClosed" />
+            </n-input-group-label>
+            <n-input :style="{ width: '75%' }" :disabled="true" value="Activate override to view key!" />
+        </n-input-group>
         <n-input-group v-if="override.keyMode == KeyMode.OnlyInstalled && override.id === currentOverrideId">
             <n-input-group-label>
                 <n-icon style="margin-top: auto; margin-bottom: auto;" :component="LockClosed" />
             </n-input-group-label>
             <n-input :style="{ width: '75%' }" :disabled="true" :value="override.key" />
         </n-input-group>
+        <n-tag v-if="override.keyMode == KeyMode.AskOwner" :bordered="false" type="warning">Key only available from override owner!</n-tag>
         <n-statistic label="Minimum Active Time" :value="remainingTime" />
         <!-- <n-thing title="Minimum Active Time" v-if="override.override.minimumTime || 0 > 0">
             {{ getDuration(override.override.minimumTime) }}
@@ -22,7 +29,7 @@
 <script setup lang="ts">
 import { KeyMode, type UploadOverride } from "@/shared/types";
 import { DateTime, Duration } from "luxon";
-import { NSpace, NInputGroup, NInputGroupLabel, NInput, NThing, NIcon, NStatistic } from "naive-ui";
+import { NSpace, NInputGroup, NInputGroupLabel, NInput, NTag, NIcon, NStatistic } from "naive-ui";
 import { LockClosed } from "@vicons/ionicons5";
 import { computed, onMounted, ref, toRefs } from "vue";
 import { formatDistanceStrict } from "date-fns";
@@ -43,7 +50,7 @@ onMounted(async () => {
 
 const remainingDuration = computed(() => {
     const then = DateTime.fromMillis(currentTime.value);
-    const target = then.plus(Duration.fromObject({ minutes: override.value.override.minimumTime }));
+    const target = then.plus(Duration.fromObject({ minutes: override.value.override.minimumTime || 0 }));
     return then > target ? 0 : target.diff(then).toMillis();
 });
 
