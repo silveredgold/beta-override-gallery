@@ -1,6 +1,5 @@
 <template>
-    <n-card :title="override.name" style="height: 20rem;"
-        content-style="padding: 0rem 1rem 0rem 1rem; padding-bottom: 0;"
+    <n-card :title="override.name" :style="heightStyle" content-style="padding: 0rem 1rem 0rem 1rem; padding-bottom: 0;"
         header-style="padding-top: 1rem; padding-bottom: 1rem;">
         <!-- <n-layout> -->
         <n-tabs type="line" animated pane-style="max-height: 8rem; overflow: auto; padding-top: 0.5rem;" size="small"
@@ -37,7 +36,8 @@
                 <Owner v-if="override.owner" :owner="override.owner" />
                 <n-space item-style="display: flex;" justify="end">
                     <n-button @click="showDetail">Show Details</n-button>
-                    <OverrideDownload v-if="allowDownload" :override="override.override" :name="override.name" label="Download" />
+                    <OverrideDownload v-if="allowDownload" :override="override.override" :name="override.name"
+                        label="Download" />
                 </n-space>
             </n-space>
         </template>
@@ -70,6 +70,11 @@
             </CensoringSummary>
             <template #footer>
                 <n-space item-style="display: flex; align-items: center;" justify="space-between">
+                    <n-button strong secondary circle type="info" @click="share">
+                        <template #icon>
+                            <n-icon :component="ShareSocialOutline" />
+                        </template>
+                    </n-button>
                     <n-tag size="large" :bordered="false">{{ override.id || override.override.id }}</n-tag>
                     <n-button @click="toggle">Close</n-button>
                 </n-space>
@@ -79,8 +84,9 @@
 </template>
 <script setup lang="ts">
 import type { IExtensionPreferences, UploadOverride } from "@/shared/types";
-import { NCard, NThing, NTabs, NTabPane, NSpace, NButton, NModal, NDrawer, NDrawerContent, NTag, NScrollbar } from "naive-ui";
-import { ref, toRefs } from "vue";
+import { NCard, NThing, NTabs, NTabPane, NSpace, NButton, NModal, NDrawer, NDrawerContent, NTag, NScrollbar, NIcon } from "naive-ui";
+import { ShareSocialOutline } from "@vicons/ionicons5";
+import { computed, ref, toRefs } from "vue";
 import LockMode from "./LockMode.vue";
 import OverrideDownload from "./OverrideDownload.vue";
 import ModeSummary from "./ModeSummary.vue";
@@ -91,11 +97,12 @@ import DomainList from "./DomainList.vue";
 import Owner from "./Owner.vue";
 import type { Segmented } from "naive-ui/es/card/src/Card";
 
-const log = (...msg: any[]) => {console.log(msg)}
+const log = (...msg: any[]) => { console.log(msg) }
 
-const props = withDefaults(defineProps<{ override: UploadOverride, useModal?: boolean, allowDownload?: boolean }>(), {
+const props = withDefaults(defineProps<{ override: UploadOverride, useModal?: boolean, allowDownload?: boolean, height?: string }>(), {
     useModal: false,
-    allowDownload: true
+    allowDownload: true,
+    height: '20rem'
 });
 
 const emit = defineEmits<{
@@ -110,12 +117,18 @@ let active = ref(false);
 const toggle = () => {
     active.value = !active.value;
 }
+const share = () => {
+    const urlBase = document.location.origin + '/gallery/';
+    if (override.value.id && navigator.canShare({url: urlBase + override.value.id})) {
+        navigator.share({url: urlBase + override.value.id});
+    }
+}
 const segmented: Segmented = {
     content: 'soft',
     footer: 'soft'
 }
 
-const { override, useModal, allowDownload } = toRefs(props);
+const { override, useModal, allowDownload, height } = toRefs(props);
 
 const showDetail = () => {
     if (useModal.value) {
@@ -124,5 +137,11 @@ const showDetail = () => {
         active.value = true;
     }
     emit('showDetail', override.value.override);
-}
+};
+
+const heightStyle = computed(() => {
+    return {
+        'height': height.value
+    }
+})
 </script>

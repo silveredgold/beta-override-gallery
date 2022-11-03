@@ -15,7 +15,7 @@
                 <n-grid cols="2 s:1 m:2 l:3 xl:4 2xl:5" :x-gap="18" :y-gap="12" v-if="!!data && data.length > 0"
                     responsive="screen">
                     <n-gi v-for="record of data" class="tile">
-                        <DynamicOverrideTile :use-modal="false" :override="record" @show-detail="showDetail" />
+                        <DynamicOverrideTile :use-modal="false" :override="record" @show-detail="showDetail" :fixed-size="true" />
                     </n-gi>
                 </n-grid>
             </div>
@@ -26,7 +26,6 @@
 import { NGi, NGrid, NCard } from "naive-ui";
 import type { IExtensionPreferences, UploadOverride } from '@/shared/types';
 import { ref, onMounted, type Ref } from 'vue';
-import OverrideTile from '../components/OverrideTile.vue';
 import DynamicOverrideTile from '../components/DynamicOverrideTile.vue';
 import type { IOverride } from "@silveredgold/beta-shared/preferences";
 import { removeTrailingSlashes } from "@/util";
@@ -39,12 +38,6 @@ const data: Ref<UploadOverride[]> = ref([]);
 const loading = ref(true);
 const error: Ref<AppError> = ref(null);
 const currentOverride: Ref<IOverride<IExtensionPreferences> | undefined> = ref(undefined);
-
-const active = ref(false)
-const toggle = () => {
-    active.value = false;
-    currentOverride.value = undefined;
-}
 
 const showDetail = (override: IOverride<IExtensionPreferences>) => {
     console.log('got show detail input', override);

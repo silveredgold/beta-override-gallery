@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { OverridesService } from './overrides.service.js';
 import { UploadOverride } from './upload-override.dto.js';
@@ -20,8 +20,15 @@ export class OverridesController {
   }
 
   @Get(':id')
-  findOne(@Param() params): string {
-    return `requested ${params.id}`;
+  async findOne(@Param('id') id: string): Promise<UploadOverride> {
+    let data = await this.dbService.getById(id);
+    if (data) {
+      return data;
+    }
+    throw new HttpException({
+      status: HttpStatus.NOT_FOUND,
+      error: "The requested override was not found!"
+    }, HttpStatus.NOT_FOUND);
   }
 
   @Post()

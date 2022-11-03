@@ -56,4 +56,9 @@ export class OverridesService {
         return this._db.data;
     }
 
+    async getById(id: string): Promise<UploadOverride|undefined> {
+        await this.read();
+        return this._db.data.find(ou => ou.id == id);
+    }
+
 }
