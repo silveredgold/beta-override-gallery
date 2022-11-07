@@ -15,7 +15,7 @@
                     <n-input v-model:value="details.title" @keydown.enter.prevent
                         placeholder="Enter a descriptive title for your override" />
                 </n-form-item-gi>
-                <n-form-item-gi :span="12" path="password" label="Password">
+                <n-form-item-gi :span="12" path="description" label="Description">
                     <n-input v-model:value="details.description"
                         placeholder="Enter a description for this override to give others an idea of what's included."
                         type="textarea" :autosize="{
